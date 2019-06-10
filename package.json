@@ -12,7 +12,6 @@
     "discord"
   ],
   "author": "thatsillyweed",
-  "license": "ISC",
   "dependencies": {
     "delay": "^4.1.0",
     "discord.js": "^11.4.2",
