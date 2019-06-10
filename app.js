@@ -26,22 +26,25 @@ bot.on('message', async message => { // here we goooooooo!!
     try {
         if (message.author.bot) return;
         var Attachment = message.attachments.array(); // the link in the content
-        var imgURL = Attachment[0].url; // the link itself
-        var sightengine = require('sightengine')(sengine.api_user,sengine.api_secret);
-        sightengine.check(['properties']).set_url(imgURL).then(function(result) {
-            console.log(Attachment[0].url); // logs the URL from message content (if there is)
-            console.log(result.colors.dominant); // logs the dominant colors (in average from picture, in RGB and HEX values)
-            var domRed = result.colors.dominant.r; // variable for dominant red color
-            if (domRed > 175) { // if dominant red color is greater than 175, delete the picture
-                message.delete();
-                message.channel.send("NO RED, YOU COMMIE!!!"); // communism... yay!
-            };
-        }).catch(function(err) {
-            console.log("An error occurred: " + err);
-        });
+        if (Attachment === "[]") return;
+        else {
+            var imgURL = Attachment[0].url; // the link itself
+            var sightengine = require('sightengine')(sengine.api_user,sengine.api_secret);
+            sightengine.check(['properties']).set_url(imgURL).then(function(result) {
+                console.log(Attachment[0].url); // logs the URL from message content (if there is)
+                console.log(result.colors.dominant); // logs the dominant colors (in average from picture, in RGB and HEX values)
+                var domRed = result.colors.dominant.r; // variable for dominant red color
+                if (domRed > 175) { // if dominant red color is greater than 175, delete the picture
+                    message.delete();
+                    message.channel.send("NO RED, YOU COMMIE!!!"); // communism... yay!
+                };
+            }).catch(function(err) {
+                console.log("An error occurred: " + err);
+            });
+        }
     } catch (err) {
-        //console.log("An error occurred: " + err);
-        return; // ignores the error completely, doesn't even log it
+        console.log("An error occurred: " + err);
+        return
     };
 });
 
